@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ru.captaindmitro.cinemaapp.ui.common.MovieCard
+import ru.captaindmitro.cinemaapp.ui.common.SwipeableCard
 
 @Composable
 fun HomeScreen(
@@ -34,11 +35,8 @@ fun HomeScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp)
 
     ) {
-        items(movies) { movie ->
-            MovieCard(
-                movie = movie,
-                onClick = { navigateToDetails(movie.imdbId) }
-            )
+        items(items = movies) { movie ->
+            SwipeableCard(movie = movie, onClick = { navigateToDetails(movie.imdbId) })
         }
     }
 }

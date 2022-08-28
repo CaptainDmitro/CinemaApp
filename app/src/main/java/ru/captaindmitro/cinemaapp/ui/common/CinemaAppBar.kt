@@ -28,27 +28,25 @@ fun CinemaAppBar(
 ) {
     var searchExpanded by remember { mutableStateOf(false) }
 
-    if (currentScreen == Destination.Details) {
-        scrollBehavior.state.heightOffset = 0f
+    if (currentScreen != Destination.Details) {
+        SmallTopAppBar(
+            title = { Text(text = currentScreen.title) },
+            actions = {
+                IconButton(onClick = { searchExpanded = !searchExpanded }) {
+                    Icon(
+                        imageVector = if (searchExpanded) Icons.Default.Clear else Icons.Default.Search,
+                        contentDescription = ""
+                    )
+                }
+            },
+            colors = TopAppBarDefaults.smallTopAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                titleContentColor = MaterialTheme.colorScheme.onPrimary
+            ),
+            scrollBehavior = scrollBehavior,
+            modifier = modifier
+        )
     }
-
-    SmallTopAppBar(
-        title = { Text(text = currentScreen.title) },
-        actions = {
-            IconButton(onClick = { searchExpanded = !searchExpanded }) {
-                Icon(
-                    imageVector = if (searchExpanded) Icons.Default.Clear else Icons.Default.Search,
-                    contentDescription = ""
-                )
-            }
-        },
-        colors = TopAppBarDefaults.smallTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            titleContentColor = MaterialTheme.colorScheme.onPrimary
-        ),
-        scrollBehavior = scrollBehavior,
-        modifier = modifier
-    )
 
     if (searchExpanded) {
         Box(
