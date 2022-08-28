@@ -1,30 +1,28 @@
-package ru.captaindmitro.cinemaapp.ui.common
+package ru.captaindmitro.cinemaapp.ui.resources
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.rememberSwipeableState
+import androidx.compose.material.swipeable
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import ru.captaindmitro.cinemaapp.data.MovieData
-import androidx.compose.material.rememberSwipeableState
-import androidx.compose.material.swipeable
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.unit.IntOffset
+import ru.captaindmitro.cinemaapp.domain.model.MovieDomain
 import kotlin.math.roundToInt
 
 enum class SwipeState {
@@ -33,7 +31,7 @@ enum class SwipeState {
 
 @Composable
 fun SwipeableCard(
-    movie: MovieData,
+    movie: MovieDomain,
     onClick: () -> Unit,
 ) {
     AnimatedVisibility(visible = true) {
@@ -53,7 +51,7 @@ fun SwipeableCard(
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun MovieCard(
-    movie: MovieData,
+    movie: MovieDomain,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {

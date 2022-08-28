@@ -1,8 +1,10 @@
-package ru.captaindmitro.cinemaapp.data
+package ru.captaindmitro.cinemaapp.data.api
 
 import retrofit2.http.GET
 import retrofit2.http.Query
 import ru.captaindmitro.cinemaapp.BuildConfig
+import ru.captaindmitro.cinemaapp.data.model.MovieData
+import ru.captaindmitro.cinemaapp.data.model.ResponseSearch
 
 interface MovieApi {
 

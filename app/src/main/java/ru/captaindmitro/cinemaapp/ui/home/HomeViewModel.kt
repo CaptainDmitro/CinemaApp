@@ -1,36 +1,36 @@
 package ru.captaindmitro.cinemaapp.ui.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import ru.captaindmitro.cinemaapp.data.MovieData
-import ru.captaindmitro.cinemaapp.domain.MovieDomain
-import ru.captaindmitro.cinemaapp.domain.Repository
+import ru.captaindmitro.cinemaapp.domain.model.MovieDomain
+import ru.captaindmitro.cinemaapp.domain.common.Result
+import ru.captaindmitro.cinemaapp.domain.usecase.GetRecentMoviesUseCase
+import ru.captaindmitro.cinemaapp.ui.common.UiState
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val repository: Repository
+    private val getRecentMoviesUseCase: GetRecentMoviesUseCase
 ) : ViewModel() {
 
-    private val _movies: MutableStateFlow<List<MovieData>> = MutableStateFlow(emptyList())
+    private val _movies: MutableStateFlow<UiState<List<MovieDomain>>> = MutableStateFlow(UiState.Empty)
     val movies = _movies.asStateFlow()
 
-    private val _movie: MutableStateFlow<MovieData?> = MutableStateFlow(null)
-    val movie = _movie.asStateFlow()
-
     init {
-        Log.i("Main", "HomeViewModel created")
         viewModelScope.launch {
-            _movies.value = repository.getRecentMovies()
-        }
-        viewModelScope.launch {
-            val res = repository.getMovieById("tt7395114")
-            Log.i("Main", "Received movie: $res")
+            _movies.value = UiState.Loading
+            when (val result = getRecentMoviesUseCase.invoke()) {
+                is Result.Success -> {
+                    _movies.value = if (result.data.isEmpty()) UiState.Empty else UiState.Success(result.data)
+                }
+                is Result.Failure -> {
+                    _movies.value = UiState.Error(result.error)
+                }
+            }
         }
     }
 

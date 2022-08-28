@@ -1,8 +1,8 @@
 package ru.captaindmitro.cinemaapp.domain
 
-import ru.captaindmitro.cinemaapp.data.MovieData
+import ru.captaindmitro.cinemaapp.domain.model.MovieDomain
 
 interface Repository {
-    suspend fun getRecentMovies(): List<MovieData>
-    suspend fun getMovieById(id: String): MovieData
+    suspend fun getRecentMovies(): List<MovieDomain>
+    suspend fun getMovieById(id: String): MovieDomain
 }

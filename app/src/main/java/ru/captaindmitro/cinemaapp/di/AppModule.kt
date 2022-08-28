@@ -6,7 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import ru.captaindmitro.cinemaapp.data.MovieApi
+import ru.captaindmitro.cinemaapp.data.api.MovieApi
 import ru.captaindmitro.cinemaapp.data.RemoteDataSource
 import ru.captaindmitro.cinemaapp.data.RepositoryImpl
 import ru.captaindmitro.cinemaapp.domain.Repository
