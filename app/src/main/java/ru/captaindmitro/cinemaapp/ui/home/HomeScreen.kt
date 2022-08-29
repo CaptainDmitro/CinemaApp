@@ -1,5 +1,7 @@
 package ru.captaindmitro.cinemaapp.ui.home
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -13,9 +15,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import ru.captaindmitro.cinemaapp.ui.common.SwipeableCard
 import ru.captaindmitro.cinemaapp.ui.common.UiState
+import ru.captaindmitro.cinemaapp.ui.resources.SwipeableCard
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
     navigateToDetails: (String) -> Unit,
@@ -36,10 +39,13 @@ fun HomeScreen(
             LazyColumn(
                 state = lazyListState,
                 contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
-                items(items = state.data) { movie ->
-                    SwipeableCard(movie = movie, onClick = { navigateToDetails(movie.imdbId) })
+                items(
+                    items = state.data,
+                    key = { movie -> movie.imdbId }
+                ) { movie ->
+                    SwipeableCard(movie = movie, onClick = { navigateToDetails(movie.imdbId) }, modifier = Modifier.animateItemPlacement())
                 }
             }
         }

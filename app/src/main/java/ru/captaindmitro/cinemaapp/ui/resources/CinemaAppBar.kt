@@ -1,21 +1,24 @@
 package ru.captaindmitro.cinemaapp.ui.common
 
-import android.util.Log
-import androidx.compose.animation.rememberSplineBasedDecay
+import androidx.compose.animation.*
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material.icons.twotone.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.focusTarget
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import ru.captaindmitro.cinemaapp.ui.navigation.Destination
 
@@ -24,6 +27,7 @@ import ru.captaindmitro.cinemaapp.ui.navigation.Destination
 fun CinemaAppBar(
     currentScreen: Destination,
     scrollBehavior: TopAppBarScrollBehavior,
+    onSearch: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var searchExpanded by remember { mutableStateOf(false) }
@@ -34,7 +38,8 @@ fun CinemaAppBar(
             actions = {
                 IconButton(onClick = { searchExpanded = !searchExpanded }) {
                     Icon(
-                        imageVector = if (searchExpanded) Icons.Default.Clear else Icons.Default.Search,
+                        imageVector = if (searchExpanded) Icons.Outlined.Clear else Icons.Outlined.Search,
+                        tint = Color.White,
                         contentDescription = ""
                     )
                 }
@@ -48,7 +53,13 @@ fun CinemaAppBar(
         )
     }
 
-    if (searchExpanded) {
+    AnimatedVisibility(
+        visible = searchExpanded,
+        enter = slideInVertically() + fadeIn(),
+        exit = slideOutVertically() + fadeOut()
+    ) {
+        var text by remember { mutableStateOf("") }
+
         Box(
             contentAlignment = Center,
             modifier = Modifier
@@ -56,9 +67,16 @@ fun CinemaAppBar(
                 .padding(top = 78.dp, start = 16.dp, end = 16.dp)
         ) {
             OutlinedTextField(
-                value = "",
-                onValueChange = {},
-                modifier = Modifier.fillMaxWidth()
+                value = text,
+                onValueChange = { newText -> text = newText },
+                singleLine = true,
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        onSearch(text)
+                    }
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
             )
         }
     }

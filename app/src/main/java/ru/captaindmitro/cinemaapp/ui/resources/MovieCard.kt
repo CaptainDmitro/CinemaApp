@@ -8,9 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Share
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material.rememberSwipeableState
 import androidx.compose.material.swipeable
 import androidx.compose.material3.*
@@ -33,10 +31,12 @@ enum class SwipeState {
 fun SwipeableCard(
     movie: MovieDomain,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     AnimatedVisibility(visible = true) {
         Box(
             modifier = Modifier
+                .then(modifier)
                 .background(MaterialTheme.colorScheme.primaryContainer, RoundedCornerShape(16.dp))
         ) {
             SwipeableActions(modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight())
@@ -114,20 +114,20 @@ fun SwipeableActions(modifier: Modifier) {
     ) {
         IconButton(onClick = {}) {
             Icon(
-                imageVector = Icons.Default.Star,
-                contentDescription = null
+                imageVector = Icons.Outlined.FavoriteBorder,
+                contentDescription = ""
             )
         }
         IconButton(onClick = {}) {
             Icon(
-                imageVector = Icons.Default.Notifications,
-                contentDescription = null
+                imageVector = Icons.Outlined.Notifications,
+                contentDescription = ""
             )
         }
         IconButton(onClick = {}) {
             Icon(
-                imageVector = Icons.Default.Share,
-                contentDescription = null
+                imageVector = Icons.Outlined.Share,
+                contentDescription = ""
             )
         }
     }

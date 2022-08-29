@@ -12,6 +12,10 @@ class RepositoryImpl @Inject constructor(
         return remoteDataSource.getRecentMovies().map { it.toDomain() }
     }
 
+    override suspend fun getMoviesByKeyword(query: String): List<MovieDomain> {
+        return remoteDataSource.getMoviesByKeyword(query).map { it.toDomain() }
+    }
+
     override suspend fun getMovieById(id: String): MovieDomain {
         return remoteDataSource.getMovieById(id).toDomain()
     }

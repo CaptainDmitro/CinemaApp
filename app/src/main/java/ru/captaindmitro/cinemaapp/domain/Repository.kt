@@ -4,5 +4,6 @@ import ru.captaindmitro.cinemaapp.domain.model.MovieDomain
 
 interface Repository {
     suspend fun getRecentMovies(): List<MovieDomain>
+    suspend fun getMoviesByKeyword(query: String): List<MovieDomain>
     suspend fun getMovieById(id: String): MovieDomain
 }

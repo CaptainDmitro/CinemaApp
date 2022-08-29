@@ -10,6 +10,7 @@ import javax.inject.Inject
 
 interface RemoteDataSource {
     suspend fun getRecentMovies(): List<MovieData>
+    suspend fun getMoviesByKeyword(query: String): List<MovieData>
     suspend fun getMovieById(id: String): MovieData
 
     class Base @Inject constructor(
@@ -21,6 +22,16 @@ interface RemoteDataSource {
             withContext(dispatcher) {
                 val res = mutableListOf<MovieData>()
                 movieApi.getRecentMovies().search.forEach {
+                    launch { res.add(movieApi.getMovieById(it.imdbId)) }
+                }
+                res
+            }
+        }
+
+        override suspend fun getMoviesByKeyword(query: String): List<MovieData> = coroutineScope {
+            withContext(dispatcher) {
+                val res = mutableListOf<MovieData>()
+                movieApi.getMoviesByKeyword(query).search.forEach {
                     launch { res.add(movieApi.getMovieById(it.imdbId)) }
                 }
                 res

@@ -11,6 +11,9 @@ interface MovieApi {
     @GET("/?apikey=${BuildConfig.API_KEY}&s=all")
     suspend fun getRecentMovies(): ResponseSearch
 
+    @GET("/?apikey=${BuildConfig.API_KEY}&s=all")
+    suspend fun getMoviesByKeyword(query: String): ResponseSearch
+
     @GET("/?apikey=${BuildConfig.API_KEY}")
     suspend fun getMovieById(
         @Query("i") imdbId: String

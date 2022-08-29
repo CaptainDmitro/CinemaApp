@@ -11,10 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import ru.captaindmitro.cinemaapp.ui.common.CinemaAppBar
+import ru.captaindmitro.cinemaapp.ui.home.HomeViewModel
 import ru.captaindmitro.cinemaapp.ui.navigation.Destination
 import ru.captaindmitro.cinemaapp.ui.navigation.NavGraph
 
@@ -22,6 +24,7 @@ import ru.captaindmitro.cinemaapp.ui.navigation.NavGraph
 @Composable
 fun MainScreen(
     navController: NavHostController = rememberNavController(),
+    homeViewModel: HomeViewModel = hiltViewModel(),
     modifier: Modifier = Modifier
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -40,7 +43,8 @@ fun MainScreen(
         topBar = {
             CinemaAppBar(
                 currentScreen = currentScreen,
-                scrollBehavior = scrollBehavior
+                scrollBehavior = scrollBehavior,
+                onSearch = homeViewModel::searchMoviesByKeyword
             )
         },
         floatingActionButton = {
